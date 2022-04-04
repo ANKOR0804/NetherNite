@@ -1,5 +1,5 @@
 <template>
-  <div class="packages container">
+  <div class="packages">
     <h3>Список модулей</h3>
     <js-module
       v-for="jsModule in jsModules"

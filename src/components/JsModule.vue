@@ -26,7 +26,7 @@
     <div class="row">
       <div class="col-xs-12">
         <a
-          class="package-owner"
+          class="package-owner me-3 mb-3"
           :href="`mail-to:${jsModule.package.publisher.email}`"
         >
           <i class="bi bi-patch-check"></i>
@@ -41,6 +41,7 @@
     </div>
   </div>
   <click-modal v-model:show="showMore">
+    <h3 class="mb-3">{{jsModule.package.name}}</h3>
     <p class="package-search-score">
       Search rating: {{ jsModule.searchScore }}
     </p>
@@ -49,7 +50,7 @@
       <span class="package-label"
        v-for="keyword in jsModule.package.keywords"
        :key="keyword.id">
-       <i class="bi bi-tag-fill"></i></span>
+       <i class="bi bi-tag-fill mr-2"></i>{{keyword}}</span>
     </div>
   </click-modal>
 </template>
@@ -84,6 +85,9 @@ export default {
 .package {
   width: 100%;
   cursor: pointer;
+  padding: 15px;
+  border-radius: 10px;
+  margin-bottom: 20px;
 
   &:hover {
     background-color: #e5e5e5;

@@ -1,30 +1,43 @@
 <template>
-  <vue-input v-model="searchQuery" placeholder="Enter package name" />
-
-  <div class="row">
-    <div class="col-sm-6">
-      <button @click="fetchModules">Получить че-то</button>
-    </div>
-    <div class="col-sm-6">
-      <vue-select v-model="selectedSort" :options="sortOptions" />
-    </div>
-  </div>
-  <js-modules :jsModules="searchedModules" v-if="!isModulesLoading" />
-
-  <div v-else>Идет загрузка...</div>
-
-  <ul class="pagination">
-    <li v-for="pageNumber in totalPages" :key="pageNumber" class="page-item">
-      <a
-        :class="{
-          'lol': from === pageNumber
-        }"
-        class="page-link"
-        href="#"
-        >{{ pageNumber }}</a
+  <div class="container">
+    <div class="input-group mb-3 pt-5">
+      <vue-input
+        v-model="searchQuery"
+        type="text"
+        class="form-control"
+        placeholder="Enter package name"
+        aria-label="Enter a package name"
+      />
+      <button
+        @click="fetchModules"
+        class="btn btn-outline-secondary"
+        type="button"
+        id="button-addon2"
       >
-    </li>
-  </ul>
+        Find package
+      </button>
+    </div>
+    <vue-select v-model="selectedSort" :options="sortOptions" :style="{display:'none'}" />
+
+    <js-modules :jsModules="searchedModules" v-if="!isModulesLoading" />
+
+    <ul class="pagination" v-if="!isModulesLoading">
+      <li v-for="pageNumber in totalPages" :key="pageNumber" class="page-item">
+        <a
+          :class="{
+            lol: from === pageNumber,
+          }"
+          class="page-link"
+          @click="changePage(pageNumber)"
+          >{{ pageNumber }}</a
+        >
+      </li>
+    </ul>
+
+    <div v-else>Идет загрузка...</div>
+
+    <vue-footer />
+  </div>
 </template>
 
 <script>
@@ -32,12 +45,14 @@ import JsModules from "@/components/JsModules.vue";
 import axios from "axios";
 import VueSelect from "@/components/VueSelect.vue";
 import VueInput from "@/components/VueInput.vue";
+import VueFooter from "@/components/VueFooter.vue"
 
 export default {
   components: {
     JsModules,
     VueSelect,
     VueInput,
+    VueFooter
   },
 
   data() {
@@ -49,7 +64,7 @@ export default {
       searchQuery: "",
       from: 0,
       size: 10,
-      totalPages: 10,
+      totalPages: 5,
       sortOptions: [
         { value: "package.name", name: "Sort by name" },
         { value: "package.description", name: "Sort by description" },
@@ -57,6 +72,11 @@ export default {
     };
   },
   methods: {
+    changePage(pageNumber) {
+      this.from = pageNumber;
+      this.fetchModules();
+    },
+
     async fetchModules() {
       try {
         this.isModulesLoading = true;
@@ -99,12 +119,16 @@ export default {
       );
     },
   },
-  watch: {},
+  watch: {
+    page() {
+      this.fetchModules();
+    },
+  },
 };
 </script>
 
 <style lang="scss">
-.lol {
-  background: black;
-}
+  .page-item {
+    cursor: pointer;
+  }
 </style>

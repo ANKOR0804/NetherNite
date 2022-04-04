@@ -40,7 +40,8 @@ export default {
         &__info {
             margin: auto;
             background: white;
-            border-radius: 12px;
+            padding: 15px;
+            border-radius: 10px;
             min-height: 50px;
             min-width: 300px;
         }
