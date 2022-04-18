@@ -1,6 +1,6 @@
 <template>
   <div class="packages">
-    <h3>Список модулей</h3>
+    <h3>List of packages</h3>
     <js-module
       v-for="jsModule in jsModules"
       :key="jsModule.id"

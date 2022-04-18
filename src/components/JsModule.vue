@@ -47,7 +47,7 @@
     </p>
     <p class="package-score-final">Final score: {{ jsModule.score.final }}</p>
     <div class="package-keywords">
-      <span class="package-label"
+      <span class="package-label me-2"
        v-for="keyword in jsModule.package.keywords"
        :key="keyword.id">
        <i class="bi bi-tag-fill mr-2"></i>{{keyword}}</span>
